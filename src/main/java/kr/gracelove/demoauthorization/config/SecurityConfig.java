@@ -1,4 +1,4 @@
-package kr.gracelove.demoauthorization;
+package kr.gracelove.demoauthorization.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -27,16 +26,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .cors().disable()
-                .csrf().disable()
-                .headers().frameOptions().disable()
-                .and()
-                .authorizeRequests().antMatchers("/oauth/**", "/oauth2/callback", "/h2-console/**").permitAll()
-                .and()
-                .formLogin()
-                .and()
-                .httpBasic();
-
+        http.headers().frameOptions().disable();
+        http.csrf().disable();
+        http.authorizeRequests()
+                .antMatchers("/oauth/**", "/oauth2/callback", "/h2-console/**").permitAll();
+        http.formLogin();
+        http.httpBasic();
     }
 }

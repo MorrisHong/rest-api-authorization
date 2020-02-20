@@ -1,4 +1,4 @@
-package kr.gracelove.demoauthorization;
+package kr.gracelove.demoauthorization.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -8,6 +8,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @Configuration
 @EnableAuthorizationServer
 public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdapter {
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
@@ -15,7 +16,7 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
                 .secret("testSecret")
                 .redirectUris("http://localhost:8081/oauth2/callback")
                 .authorizedGrantTypes("authorization_code")
-                .scopes("read","write")
-                .accessTokenValiditySeconds(30000);
+                .scopes("read", "write")
+                .accessTokenValiditySeconds(60 * 60);
     }
 }
